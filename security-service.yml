@@ -8,7 +8,7 @@ server:
 
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/security_db}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/security_db}
     username: ${SPRING_DATASOURCE_USERNAME:security_user}
     password: ${SPRING_DATASOURCE_PASSWORD:security_pass}
     driver-class-name: org.postgresql.Driver
@@ -23,7 +23,7 @@ spring:
 
   cloud:
     config:
-      uri: ${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
+      uri: ${SPRING_CLOUD_CONFIG_URI:http://config-server:8088}
       fail-fast: true
 
 # Configuración del Authorization Server OAuth2
@@ -35,7 +35,7 @@ oauth2:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}  # URL del servidor Eureka
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://registry-service:8761/eureka/}  # URL del servidor Eureka
 
 # Configuración de management para monitoreo y métricas
 management:
