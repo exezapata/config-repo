@@ -2,11 +2,8 @@ server:
   port: 8088
 
 spring:
-  profiles:
-    active: native
   application:
     name: config-server
-
   output:
     ansi:
       enabled: ALWAYS
