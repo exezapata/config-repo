@@ -35,7 +35,12 @@ oauth2:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://registry-service:8761/eureka/}  # URL del servidor Eureka
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://registry-service:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    preferIpAddress: false
+    hostname: security-service
 
 # Configuración de management para monitoreo y métricas
 management:
