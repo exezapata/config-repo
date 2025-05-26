@@ -4,12 +4,7 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://registry-service:8761/eureka/}
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    preferIpAddress: false
-    hostname: user-service
+      defaultZone: http://registry-service:8761/eureka/
 
 management:
   tracing:

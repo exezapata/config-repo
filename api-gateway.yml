@@ -1,32 +1,29 @@
-server:
-  port: 8060
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://registry-service:8761/eureka/
-    register-with-eureka: true
-    fetch-registry: true
-  instance:
-    preferIpAddress: false
-    hostname: api-gateway
-
-management:
-  tracing:
-    sampling:
-      probability: 1.0
-
 spring:
-  application:
-    name: api-gateway
+  security:
+    oauth2:
+      client:
+        registration:
+          client-app:
+            client-id: client-app
+            client-secret: admin123
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid,read,write
+        provider:
+          spring:
+            issuer-uri: http://localhost:8083
+
   cloud:
     gateway:
+      default-filters:
+        - TokenRelay
       routes:
-        - id: security-service
-          uri: lb://security-service
-          predicates:
-            - Path=/**
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/api/v1/user/**
+        # Puedes agregar más rutas aquí si querés:
+        # - id: other-service
+        #   uri: lb://other-service
+        #   predicates:
+        #     - Path=/api/v1/other/**
