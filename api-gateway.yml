@@ -19,7 +19,7 @@ spring:
             client-name: client-app
         provider:
           custom-provider:
-            issuer-uri: http://localhost:8083
+            issuer-uri: http://security-service:8083
       resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8083/oauth2/jwks
