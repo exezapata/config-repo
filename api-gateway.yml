@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: api-gateway
@@ -7,14 +10,19 @@ spring:
       client:
         registration:
           client-app:
+            provider: custom-provider
             client-id: client-app
             client-secret: admin123
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: openid,read,write
+            client-name: client-app
         provider:
-          client-app: # Este ID debe coincidir con el registration ID
+          custom-provider:
             issuer-uri: http://localhost:8083
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8083/oauth2/jwks
 
   cloud:
     gateway:
@@ -25,7 +33,22 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/api/v1/user/**
-        # Podés agregar más rutas si es necesario
+        # Puedes agregar más rutas aquí si es necesario
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
+    org.springframework.security.oauth2: TRACE
+
+      # Podés agregar más rutas si es necesario
+      # - id: other-service
+      #   uri: lb://other-service
+      #   predicates:
+      #     - Path=/api/v1/other/**
+
+      # Podés agregar más rutas si es necesario
         # - id: other-service
         #   uri: lb://other-service
         #   predicates:

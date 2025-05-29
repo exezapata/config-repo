@@ -12,6 +12,7 @@ spring:
     username: ${SPRING_DATASOURCE_USERNAME:security_user}
     password: ${SPRING_DATASOURCE_PASSWORD:security_pass}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:none}
@@ -26,18 +27,44 @@ spring:
       uri: ${SPRING_CLOUD_CONFIG_URI:http://config-server:8088}
       fail-fast: true
 
-# Configuración del Authorization Server OAuth2
+  security:
+    user:
+      name: user1
+      password: password
+    oauth2:
+      authorizationserver:
+        client:
+          user-accounts-app:
+            registration:
+              client-id: "user-accounts-app"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+                - "client_credentials"
+              redirect-uris:
+                - "http://127.0.0.1:8080/login/oauth2/code/user-accounts-app-oidc"
+                - "http://127.0.0.1:8080/authorized"
+              post-logout-redirect-uris:
+                - "http://127.0.0.1:8080/logged-out"
+              scopes:
+                - "openid"
+                - "profile"
+                - "accounts.read"
+                - "accounts.write"
+            require-authorization-consent: true
+
 oauth2:
   authorization-server:
     issuer: http://localhost:8083  # URI del issuer para la generación y validación de tokens JWT
 
-# Configuración del cliente Eureka para el servicio de descubrimiento
 eureka:
   client:
     serviceUrl:
       defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://registry-service:8761/eureka/}  # URL del servidor Eureka
 
-# Configuración de management para monitoreo y métricas
 management:
   tracing:
     sampling:
@@ -64,18 +91,6 @@ flyway:
   validate-on-migrate: true
   clean-disabled: true
 
-
-      #data:
-      # mongodb:
-      #  host: localhost
-      # port: 27017
-      # database: company
-      # username: company
-      # password: password
-
-#  thread-pool-bulkhead:
-#    instances:
-#      departmentService:
-#        maxThreadPoolSize: 1
-#        coreThreadPoolSize: 1
-#        queueCapacity: 1
+logging:
+  level:
+    org.springframework.security: trace
