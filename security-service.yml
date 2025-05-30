@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: security-service
+    # -------------- DEBUG de Spring Security --------------
+  security:
+    filter:
+      debug: true        # <── activa el SecurityDebugFilter
 
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://postgres:5432/security_db}
@@ -38,6 +42,7 @@ spring:
     validate-on-migrate: true
     clean-disabled: true
 
+# -------------- DEBUG para Eureka/Actuator opcional --------------
 eureka:
   client:
     serviceUrl:
@@ -58,6 +63,8 @@ management:
     health:
       show-details: always
 
+
+
 logging:
   level:
-    org.springframework.security: trace
+    org.springframework.security: TRACE   # ya lo tenías; vale TRACE o DEBUG
