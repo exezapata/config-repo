@@ -15,24 +15,23 @@ spring:
             client-secret: admin123
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: openid,read,write
-            client-name: client-app
+            scope: openid, read, write
         provider:
           custom-provider:
             issuer-uri: http://security-service:8083
       resourceserver:
         jwt:
-          jwk-set-uri: http://localhost:8083/oauth2/jwks
+          issuer-uri: http://security-service:8083
 
-  cloud:
-    gateway:
-      default-filters:
-        - TokenRelay
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/api/v1/user/**
+    cloud:
+      gateway:
+        default-filters:
+          - TokenRelay
+        routes:
+          - id: user-service
+            uri: lb://user-service
+            predicates:
+              - Path=/api/v1/user/**
         # Puedes agregar más rutas aquí si es necesario
 
 logging:

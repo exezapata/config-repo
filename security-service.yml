@@ -58,7 +58,7 @@ spring:
 
 oauth2:
   authorization-server:
-    issuer: http://localhost:8083  # URI del issuer para la generación y validación de tokens JWT
+    issuer: http://security-service:8083 # URI del issuer para la generación y validación de tokens JWT
 
 eureka:
   client:
